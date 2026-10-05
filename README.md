@@ -157,11 +157,11 @@ VQA_PAIRS = [
 ## 7. 运行方式
 
 ```bash
-python 迷你VLM_训练脚本.py    # 需先准备 MNIST（torchvision 自动下载）
+python MiniVLM_train.py    # MNIST 由 torchvision 自动下载到 ./data
 ```
 
-- `迷你VLM_模型定义.py`：CharTokenizer / RoPE-GPT / ViTEncoder / Projector / MiniVLM
-- `迷你VLM_训练脚本.py`：四个训练阶段 + 评估，产出 `mini_vlm_final.pt` 与 `train_log.json`
+- `mini_vlm.py`：CharTokenizer / RoPE-GPT / ViTEncoder / Projector / MiniVLM
+- `MiniVLM_train.py`：四个训练阶段 + 评估，产出 `ckpt/mini_vlm_final.pt` 与 `ckpt/train_log.json`
 - 全程 CPU 约 10 分钟，无需 GPU
 
 ## 8. 后续可扩展方向

@@ -1,17 +1,16 @@
 # -*- coding: utf-8 -*-
 """迷你VLM 分阶段训练脚本：阶段0预训练 -> 阶段1投影对齐 -> 阶段2指令微调 -> 评估"""
-import sys, time, random, json
+import time, random, json
 import torch
 import torch.nn.functional as F
 from torch.utils.data import DataLoader, Subset
 from torchvision import datasets, transforms
 
-sys.path.insert(0, "./vlm_work")
 from mini_vlm import (CharTokenizer, MiniVLM, PAD_ID, EOS_ID, DEVICE,
                       IMG_TOKEN_NUM)
 
 torch.manual_seed(42); random.seed(42)
-CKPT = "./vlm_work/ckpt"
+CKPT = "./ckpt"
 import os; os.makedirs(CKPT, exist_ok=True)
 
 # ---------------- 文本模板（训练数据的"配方"） ----------------
@@ -36,9 +35,9 @@ tf_aug = transforms.Compose([
     transforms.RandomAffine(degrees=10, translate=(0.1, 0.1)),
     transforms.ToTensor(),
     transforms.Normalize((0.5,), (0.5,))])
-train_set = datasets.MNIST("./data", train=True, download=False, transform=tf)
-train_set_aug = datasets.MNIST("./data", train=True, download=False, transform=tf_aug)
-test_set = datasets.MNIST("./data", train=False, download=False, transform=tf)
+train_set = datasets.MNIST("./data", train=True, download=True, transform=tf)
+train_set_aug = datasets.MNIST("./data", train=True, download=True, transform=tf_aug)
+test_set = datasets.MNIST("./data", train=False, download=True, transform=tf)
 train_sub = Subset(train_set_aug, range(60000))   # 完整训练集 + 增强
 test_sub = Subset(test_set, range(1000))
 
