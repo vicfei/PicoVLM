@@ -164,7 +164,20 @@ python MiniVLM_train.py    # MNIST 由 torchvision 自动下载到 ./data
 - `MiniVLM_train.py`：四个训练阶段 + 评估，产出 `ckpt/mini_vlm_final.pt` 与 `ckpt/train_log.json`
 - 全程 CPU 约 10 分钟，无需 GPU
 
-## 8. 后续可扩展方向
+## 8. 配套练习：vlm_katas
+
+`vlm_katas/` 把 MiniVLM 拆成 15 关可独立完成的小练习，从字符分词器一路练到多模态拼接、答案损失与分阶段冻结，每关配待实现的 `exercises/`、参考答案 `solutions/` 与单元测试：
+
+```bash
+cd vlm_katas
+pip install -r requirements.txt
+pytest tests/test_05_rope.py -q    # 一次只跑一关；TODO 未实现时测试失败即是反馈
+VLM_IMPL=solutions pytest -q       # 参考答案全量验证（35 个测试）
+```
+
+测试只检查张量形状、数学不变量与梯度流向，CPU 即可运行，无需下载 MNIST。关卡列表与学习路线见 `vlm_katas/README.md`。
+
+## 9. 后续可扩展方向
 
 1. 投影层升级为交叉注意力（Q-Former 式），把 16 个图像 token 压缩到 4 个，对比效果与速度；
 2. 图像改为两张 MNIST 左右拼接，任务升级为"读出两个数字"，检验空间顺序建模；
